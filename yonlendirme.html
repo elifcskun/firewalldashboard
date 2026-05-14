@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Port Yönlendirme - ZLOG Firewall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+        .sidebar-dark { background-color: #2c313c; }
+        .sidebar-header { background-color: #3e4451; color: #8a919f; font-size: 10px; font-weight: 700; padding: 8px 16px; text-transform: uppercase; }
+        .menu-item { color: #abb2bf; transition: all 0.2s; display: flex; align-items: center; gap: 12px; padding: 12px 16px; font-size: 14px; }
+        .menu-item:hover { background-color: #3e4451; color: white; }
+        .menu-active { background-color: #3e4451; color: white !important; border-left: 4px solid #d32f2f; }
+        
+        .x-table th { background-color: #f8f9fa; font-size: 11px; color: #666; padding: 12px; border-bottom: 2px solid #eee; text-transform: uppercase; }
+        .x-table td { font-size: 12px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+    </style>
+</head>
+
+<body class="bg-[#f4f7f6] h-screen flex overflow-hidden font-sans">
+
+    <div class="hidden md:flex flex-col w-64 h-full sidebar-dark shrink-0">
+        <div class="p-4 bg-white border-b border-gray-200 flex items-center gap-2">
+            <div class="bg-[#d32f2f] text-white font-bold px-2 py-0.5 rounded text-sm">zLOG</div>
+            <span class="font-bold text-[#2c3e50] text-sm tracking-tight uppercase">Firewall</span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto pt-2">
+            <div class="sidebar-header">Genel</div>
+            <a href="kontrol_paneli.html" class="menu-item">
+                <span class="material-symbols-outlined text-orange-500">home</span> Kontrol Paneli
+            </a>
+
+            <div class="sidebar-header mt-2">Sistem Yönetimi</div>
+            <a href="ayarlar.html" class="menu-item">
+                <span class="material-symbols-outlined">settings</span> Sistem Ayarları
+            </a>
+            <a href="dhcp_sunucu.html" class="menu-item">
+                <span class="material-symbols-outlined">lan</span> DHCP Sunucu
+            </a>
+
+            <div class="sidebar-header mt-2">Güvenlik</div>
+            <a href="kurallar.html" class="menu-item">
+                <span class="material-symbols-outlined">shield</span> Güvenlik Duvarı
+            </a>
+            <a href="yonlendirme.html" class="menu-item menu-active">
+                <span class="material-symbols-outlined">swap_calls</span> Port Yönlendirme
+            </a>
+            <a href="trafik_kayitlari.html" class="menu-item">
+                <span class="material-symbols-outlined">description</span> Trafik Kayıtları (Log)
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <header class="h-14 bg-white border-b border-gray-300 px-6 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <h2 class="text-sm font-bold text-gray-700 uppercase">NAT / Port Yönlendirme Ayarları</h2>
+            </div>
+            <button class="bg-[#d32f2f] text-white text-[10px] font-bold px-4 py-2 rounded uppercase hover:bg-red-700 shadow-md flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">add</span> Yeni Kural Ekle
+            </button>
+        </header>
+
+        <div class="p-6 overflow-auto">
+            
+            <div class="bg-white rounded-md shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-[#d32f2f] text-white px-4 py-2 text-[11px] font-bold uppercase">Aktif Yönlendirme Kuralları</div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left x-table">
+                        <thead>
+                            <tr>
+                                <th class="w-16">Aktif</th>
+                                <th>Kural Adı</th>
+                                <th>Protokol</th>
+                                <th>Dış Port (WAN)</th>
+                                <th>Hedef IP (LAN)</th>
+                                <th>İç Port</th>
+                                <th class="text-right">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr class="hover:bg-gray-50">
+                                <td class="text-center">
+                                    <input type="checkbox" checked class="accent-red-600">
+                                </td>
+                                <td class="font-bold">Web Server (HTTP)</td>
+                                <td><span class="bg-gray-100 px-2 py-0.5 rounded font-mono text-[10px]">TCP</span></td>
+                                <td class="text-blue-600 font-bold">80</td>
+                                <td class="font-mono">192.168.1.50</td>
+                                <td class="text-green-600 font-bold">80</td>
+                                <td class="text-right space-x-2">
+                                    <button class="text-gray-400 hover:text-blue-600"><span class="material-symbols-outlined text-sm">edit</span></button>
+                                    <button class="text-gray-400 hover:text-red-600"><span class="material-symbols-outlined text-sm">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="text-center">
+                                    <input type="checkbox" checked class="accent-red-600">
+                                </td>
+                                <td class="font-bold">Remote Desktop (RDP)</td>
+                                <td><span class="bg-gray-100 px-2 py-0.5 rounded font-mono text-[10px]">TCP/UDP</span></td>
+                                <td class="text-blue-600 font-bold">3389</td>
+                                <td class="font-mono">192.168.1.100</td>
+                                <td class="text-green-600 font-bold">3389</td>
+                                <td class="text-right space-x-2">
+                                    <button class="text-gray-400 hover:text-blue-600"><span class="material-symbols-outlined text-sm">edit</span></button>
+                                    <button class="text-gray-400 hover:text-red-600"><span class="material-symbols-outlined text-sm">delete</span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-blue-500">info</span>
+                    <p class="text-xs text-blue-800 leading-tight">
+                        <strong>Güvenlik Uyarısı:</strong> Port yönlendirme işlemleri ağınızı dış tehditlere açık hale getirebilir. 
+                        Yönlendirdiğiniz servislerin güncel ve güvenli olduğundan emin olun.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

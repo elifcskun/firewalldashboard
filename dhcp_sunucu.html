@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DHCP & Statik IP - zLOG Firewall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-[#f4f7f6] h-screen flex overflow-hidden font-sans text-slate-900">
+
+    <div class="hidden md:flex flex-col w-64 h-full bg-[#2c313c] shrink-0">
+        <div class="p-4 bg-white border-b border-gray-200 flex items-center gap-2">
+            <div class="bg-[#d32f2f] text-white font-bold px-2 py-0.5 rounded text-sm">zLOG</div>
+            <span class="font-bold text-[#2c3e50] text-sm tracking-tight uppercase">Firewall</span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto pt-2">
+            <div class="bg-[#3e4451] text-[#8a919f] text-[10px] font-bold px-4 py-2 uppercase tracking-widest">Genel</div>
+            <a href="kontrol_paneli.html" class="flex items-center gap-3 px-4 py-3 text-[#abb2bf] hover:bg-[#3e4451] hover:text-white transition-all text-sm">
+                <span class="material-symbols-outlined text-orange-500">home</span> Kontrol Paneli
+            </a>
+
+            <div class="bg-[#3e4451] text-[#8a919f] text-[10px] font-bold px-4 py-2 uppercase tracking-widest mt-2">Sistem Yönetimi</div>
+            <a href="dhcp_sunucu.html" class="flex items-center gap-3 px-4 py-3 bg-[#3e4451] text-white border-l-4 border-[#d32f2f] text-sm">
+                <span class="material-symbols-outlined text-sm">lan</span> DHCP Sunucu
+            </a>
+
+            <div class="bg-[#3e4451] text-[#8a919f] text-[10px] font-bold px-4 py-2 uppercase tracking-widest mt-2">Güvenlik</div>
+            <a href="kurallar.html" class="flex items-center gap-3 px-4 py-3 text-[#abb2bf] hover:bg-[#3e4451] hover:text-white transition-all text-sm">
+                <span class="material-symbols-outlined text-sm">shield</span> Güvenlik Kuralları
+            </a>
+            <a href="trafik_kayitlari.html" class="flex items-center gap-3 px-4 py-3 text-[#abb2bf] hover:bg-[#3e4451] hover:text-white transition-all text-sm">
+                <span class="material-symbols-outlined text-sm">description</span> Trafik Kayıtları
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <header class="h-14 bg-white border-b border-gray-300 px-6 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <h2 class="text-sm font-bold text-gray-700 uppercase">DHCP & Statik IP Yönetimi</h2>
+            </div>
+            <button onclick="document.getElementById('staticIpModal').classList.remove('hidden')" class="bg-[#d32f2f] text-white text-[10px] font-bold px-4 py-2 rounded uppercase hover:bg-red-700 shadow-md flex items-center gap-2 transition-all">
+                <span class="material-symbols-outlined text-sm">add_circle</span> Yeni Statik IP Tanımla
+            </button>
+        </header>
+
+        <div class="p-6 overflow-auto space-y-6">
+            
+            <div class="bg-white rounded-md shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-[#3e4451] text-white px-4 py-2 text-[11px] font-bold uppercase flex justify-between items-center">
+                    <span>Tanımlı Statik IP Adresleri</span>
+                    <span class="bg-red-600 px-2 py-0.5 rounded text-[9px]">SABİT KAYITLAR</span>
+                </div>
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">Açıklama</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">MAC Adresi</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">Atanan IP</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase text-right">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs">
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="p-3 font-bold text-slate-700">Ana Sunucu (Proxmox)</td>
+                            <td class="p-3 font-mono">BC:24:11:88:99:AA</td>
+                            <td class="p-3 text-red-600 font-bold">192.168.1.10</td>
+                            <td class="p-3 text-right">
+                                <button class="text-gray-400 hover:text-red-600"><span class="material-symbols-outlined text-sm">delete</span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-white rounded-md shadow-lg border border-gray-200 overflow-hidden">
+                <div class="bg-[#d32f2f] text-white px-4 py-2 text-[11px] font-bold uppercase">Aktif Dinamik İstemciler (Leases)</div>
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">Cihaz</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">IP Adresi</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase">MAC Adresi</th>
+                            <th class="p-3 text-[10px] text-gray-500 uppercase text-right">Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs text-gray-600">
+                        <tr class="border-b border-gray-100 italic">
+                            <td class="p-3">Desktop-PC</td>
+                            <td class="p-3 text-blue-600">192.168.1.115</td>
+                            <td class="p-3">00:15:5D:01:02:03</td>
+                            <td class="p-3 text-right text-green-500 font-bold uppercase text-[9px]">Aktif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="staticIpModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+        <div class="bg-white w-full max-w-md rounded-lg shadow-2xl overflow-hidden border-t-4 border-[#d32f2f]">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h3 class="font-bold text-sm text-gray-700 uppercase">Yeni Statik IP Kaydı</h3>
+                <button onclick="document.getElementById('staticIpModal').classList.add('hidden')" class="text-gray-400 hover:text-black">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Cihaz/Açıklama Adı</label>
+                    <input type="text" placeholder="Örn: Kamera 1" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#d32f2f]">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">MAC Adresi</label>
+                    <input type="text" placeholder="00:00:00:00:00:00" class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:border-[#d32f2f]">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Atanacak Statik IP</label>
+                    <input type="text" placeholder="192.168.1.X" class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:border-[#d32f2f]">
+                </div>
+            </div>
+            <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-2">
+                <button onclick="document.getElementById('staticIpModal').classList.add('hidden')" class="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-700 uppercase">İptal</button>
+                <button class="bg-[#d32f2f] text-white px-6 py-2 rounded text-xs font-bold uppercase hover:bg-red-700 shadow-md">Kaydet ve Uygula</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

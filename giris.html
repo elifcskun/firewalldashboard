@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Libertinus+Mono&family=Poppins:wght@100;300;400;500;600&display=swap" rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<title>ZLOG Giriş</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+background:#cc2200;
+font-family:Arial;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.giris_kutu{
+text-align:center;
+}
+
+.logo{
+color:white;
+font-size:40px;
+margin-bottom:20px;
+}
+
+input{
+display:block;
+width:220px;
+padding:10px;
+margin:10px auto;
+border:none;
+outline:none;
+}
+
+button{
+width:220px;
+padding:10px;
+background:#e74c3c;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#c0392b;
+}
+
+</style>
+
+<script>
+
+function girisYap(){
+
+var kullanici = document.getElementById("kullanici").value
+var sifre = document.getElementById("sifre").value
+
+if(kullanici == "admin" && sifre == "admin"){
+
+window.location.href="kontrol_paneli.html"
+
+}
+
+else{
+
+alert("Kullanıcı adı veya şifre hatalı")
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="giris_kutu">
+
+<h1 class="logo">ZLOG</h1>
+
+<input id="kullanici" placeholder="Kullanıcı Adı">
+
+<input id="sifre" type="password" placeholder="Şifre">
+
+<button onclick="girisYap()">GİRİŞ</button>
+
+</div>
+
+</body>
+
+</html>
